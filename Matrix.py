@@ -1,12 +1,11 @@
 
 def dot( vec1, vec2 ):
+    """
+    Creating the dot product
+    """
     mul = [i * j for i, j in zip(vec1, vec2)] # i is self.row, j = other.col, multiply each thing in vec
     add = sum(mul)
     return add
-
-
-
-
 
 class Matrix():
 
@@ -16,6 +15,9 @@ class Matrix():
         self.col = self.get_col(matrix)
 
     def get_row( self , i):
+        '''
+        Finding how many rows are in the matrix
+        '''
         rows = 0
         for row in i:
             rows += 1
@@ -29,7 +31,9 @@ class Matrix():
 
 
     def get_col( self , j):
-        # print(self)
+        '''
+        finding how many colums in the Matrix
+        '''
         cols = 0
         for row in j:
             try:
@@ -44,6 +48,9 @@ class Matrix():
 
 
     def add( self, other ):
+        '''
+        finding the sum of the matrix the long way
+        '''
         if (self.row != other.row) or (self.col != other.col):
             print("Can not add these two matrix")
             return
@@ -70,6 +77,9 @@ class Matrix():
 
 
     def sub( self, other ):
+        '''
+        Finding the subtracted the long way
+        '''
         if (self.row != other.row) or (self.col != other.col):
             print("Can not subtract these two matrix")
             return
@@ -96,6 +106,9 @@ class Matrix():
 
 
     def mult( self, other ):
+        '''
+        multiplying using the dot product and through the scalar multiplacation
+        '''
         multiply = []
         try:
             isInt = other + 1
@@ -140,6 +153,9 @@ class Matrix():
     ## TODO
     ## Return a Matrix that is the transpose of self.
     def transpose( self ):
+        '''
+        flipping the row and colum of the Matrix
+        '''
         transpose = []
         newRow = []
         for r in range(self.col):
