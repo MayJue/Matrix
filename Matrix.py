@@ -1,10 +1,8 @@
-## TODO
-## Implement a helper function to return the dot product of a 1 x n vector and
-## an n x 1 vector - i.e. a row and a column.  They must be the same length,
-## otherwise the function needs to exit without error.
-def dot( vec1, vec2 ):
 
-    print("dot")
+def dot( vec1, vec2 ):
+    mul = [i * j for i, j in zip(vec1, vec2)] # i is self.row, j = other.col, multiply each thing in vec
+    add = sum(mul)
+    return add
 
 
 
@@ -12,82 +10,197 @@ def dot( vec1, vec2 ):
 
 class Matrix():
 
-    ## Initialize a Matrix object with an input matrix, stored as a list-of-lists.
     def __init__( self, matrix ):
         self.matrix = matrix
-        print(matrix)
-        ## TODO
-        ## Implement a class attribute to keep track of the matrix values.
-        ## This attribute just stores the input data.  Be sure to check that
-        ## 'matrix' is a list of lists before setting this value.
-        ## REMINDER: set a class attribute by using 'self.attr_name = value'.
+        self.row = self.get_row(matrix)
+        self.col = self.get_col(matrix)
+
+    def get_row( self , i):
+        rows = 0
+        for row in i:
+            rows += 1
+            try:
+                for j in row:
+                    pass
+            except:
+                return 1
+
+        return rows
 
 
+    def get_col( self , j):
+        # print(self)
+        cols = 0
+        for row in j:
+            try:
+                for col in row:
+                    cols +=1
+                return cols
+
+            except:
+                cols +=1
+
+        return cols
 
 
-
-
-        ## TODO
-        ## Implement class attributes to keep track of the number of rows and the
-        ## number of columns.  You can use these to compare dimensions.
-
-
-
-    ## TODO
-    ## Implement helper function that returns the i-th row in the matrix.
-    ## Should return a list of numbers (e.g. a 1 x m matrix).
-    def get_row( self, i ):
-        pass
-
-
-
-
-    ## TODO
-    ## Implement helper function that returns the j-th column in the matrix.
-    ## Should return a list of lists, each of size 1 (e.g. an n x 1 matrix).
-    def get_col( self, j ):
-        pass
-
-
-
-    ## TODO
-    ## Check that the dimensions of self and other are compatible.
-    ## Return a Matrix equal to the sum of self and other.
     def add( self, other ):
+        if (self.row != other.row) or (self.col != other.col):
+            print("Can not add these two matrix")
+            return
+        matrix = self.matrix
+        add = []
+        temp = []
+        r = 0
+        c = 0
+        try:
+            for i in (matrix):
+                temp = []
+                for j in i:
+                    temp.append(self.matrix[r][c] + other.matrix[r][c])
+
+                    c += 1
+                add.append(temp)
+                r += 1
+                c = 0
+
+        except:
+            for i in range(len(matrix)):
+                add.append(self.matrix[i] + other.matrix[i])
+        return add
 
 
-        pass
-
-
-    ## TODO
-    ## Check that the dimensions of self and other are compatible.
-    ## Return a Matrix equal to the difference of self and other.
     def sub( self, other ):
+        if (self.row != other.row) or (self.col != other.col):
+            print("Can not subtract these two matrix")
+            return
+        matrix = self.matrix
+        sub = []
+        temp = []
+        r = 0
+        c = 0
+        try:
+            for i in (matrix):
+                temp = []
+                for j in i:
+                    temp.append(self.matrix[r][c] - other.matrix[r][c])
 
-        pass
+                    c += 1
+                sub.append(temp)
+                r += 1
+                c = 0
+
+        except:
+            for i in range(len(matrix)):
+                sub.append(self.matrix[i] - other.matrix[i])
+        return sub
 
 
-
-
-    ## TODO
-    ## First, check whether other is a scalar or a matrix.
-    ## If it is a scalar, return the product other * self.
-    ## If it is a Matrix, return the matrix product of self
-    ## and other.  This is to be accomplished by using the
-    ## dot function defined above.
     def mult( self, other ):
+        multiply = []
+        try:
+            isInt = other + 1
+            for row in self.matrix:
+                mul = [other * i for i in row] # i is self.row, j = other.col, multiply each thing in vec
+                multiply.append(mul)
+            return multiply
 
-        pass
+        except:
+            if (self.row == other.col):
+                for i in range(other.row):
+                    for j in range(other.col):
+                        selfVector = []
+                        otherVector = []
+                        newRow =[]
+                        for r in range(self.col):
+                            selfVector.append(other.matrix[i][r])
+                            otherVector.append(self.matrix[r][j])
+                            newRow.append(dot(selfVector, otherVector))
+                    multiply.append(newRow)
+                return multiply
+
+            elif (self.col == other.row):
+                for i in range(self.row):
+                    for j in range(self.col):
+                        selfVector = []
+                        otherVector = []
+                        newRow =[]
+                        for r in range(other.col):
+                            selfVector.append(self.matrix[i][r])
+                            otherVector.append(other.matrix[r][j])
+                            newRow.append(dot(selfVector, otherVector))
+                    multiply.append(newRow)
+                return multiply
+
+
+            else:
+                print('Can not multiply these matrix')
 
 
 
     ## TODO
     ## Return a Matrix that is the transpose of self.
     def transpose( self ):
-        pass
+        transpose = []
+        newRow = []
+        for r in range(self.col):
+            newRow = []
+            for i in range(self.row):
+                newRow.append(0)
+            transpose.append(newRow)
+
+        for r in range(self.row):
+            for c in range(self.col):
+                transpose[c][r] = self.matrix[r][c]
+        return transpose
 
 
 def main():
-    matrix = [[1,2,3]]
-    Matrix(matrix)
+    m1 = Matrix([[1,2,3],
+                [4,5,6]])
+    m2 = Matrix([[4,5,6],
+                [6,5,4]])
+    print('m1 = ')
+    for i in m1.matrix:
+        print(i)
+    print('m2 = ')
+    for i in m2.matrix:
+        print(i)
+    print('\n')
+    print("m1 + m2 = ")
+    m3 = m1.add(m2)
+    for i in m3:
+        print(i)
+    print("\n")
+
+    print('m2 - m1 = ')
+    m3 = m2.sub(m1)
+    for i in m3:
+        print(i)
+    print('\n')
+
+    print('m1 transpose = ')
+    m3 = m1.transpose()
+    for i in m3:
+        print(i)
+    print("\n")
+
+    m4 = Matrix([[3, 2, 1],
+                [4,3, 2],
+                [5,4, 5]])
+    print('m4 = ')
+    for i in m4.matrix:
+        print(i)
+    print('\n')
+    print('m1 x m4 = ')
+    m3 = m1.mult(m4)
+    for i in m3:
+        print(i)
+    print('\n')
+
+    m3 = m1.mult(3)
+    print('m1 x 3 = ')
+    for i in m3:
+        print(i)
+
+
 main()
